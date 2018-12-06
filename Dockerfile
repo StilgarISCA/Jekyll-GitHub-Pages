@@ -6,6 +6,8 @@ EXPOSE 4000
 # Configure bash shell
 SHELL ["/bin/bash", "-l", "-c"]
 
+ENV RUBY_VERSION 2.5.3
+
 # Update/Install packages
 RUN apt-get -y update
 RUN apt-get -y install gcc
@@ -24,7 +26,7 @@ RUN rm -rf /usr/share/ruby-rvm /etc/rvmrc /etc/profile.d/rvm.sh
 RUN apt-get -y install curl
 RUN apt-get -y install gnupg2
 RUN command curl -sSL https://rvm.io/mpapis.asc | gpg2 --import -
-RUN \curl -sSL https://get.rvm.io | bash -s stable --ruby=2.5.3 --autolibs=enable --auto-dotfiles
+RUN \curl -sSL https://get.rvm.io | bash -s stable --ruby=${RUBY_VERSION} --autolibs=enable --auto-dotfiles
 RUN source /usr/local/rvm/scripts/rvm
 RUN echo 'source /usr/local/rvm/scripts/rvm' >> /root/.bashrc
 
