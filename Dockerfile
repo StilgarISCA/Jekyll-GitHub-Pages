@@ -3,10 +3,13 @@ FROM ubuntu:bionic
 # Expose the Jekyll server port
 EXPOSE 4000
 
+# Configure bash shell
+SHELL ["/bin/bash", "-l", "-c"]
+
+ENV RUBY_VERSION 2.5.3
+
 # Update/Install packages
 RUN apt-get -y update
-RUN apt-get -y install ruby2.5
-RUN apt-get -y install ruby2.5-dev
 RUN apt-get -y install gcc
 RUN apt-get -y install make
 RUN apt-get -y install build-essential
@@ -15,11 +18,23 @@ RUN apt-get -y install liblzma-dev
 RUN apt-get -y install zlib1g-dev
 RUN apt-get -y install libcurl4-gnutls-dev
 
+# Remove default version of Ruby
+RUN apt-get -y --purge remove ruby
+RUN rm -rf /usr/share/ruby-rvm /etc/rvmrc /etc/profile.d/rvm.sh
+
+# Install Ruby via RVM
+RUN apt-get -y install curl
+RUN apt-get -y install gnupg2
+RUN command curl -sSL https://rvm.io/mpapis.asc | gpg2 --import -
+RUN \curl -sSL https://get.rvm.io | bash -s stable --ruby=${RUBY_VERSION} --autolibs=enable --auto-dotfiles
+RUN source /usr/local/rvm/scripts/rvm
+RUN echo 'source /usr/local/rvm/scripts/rvm' >> /root/.bashrc
+
 # Install Gems
-RUN gem2.5 pristine rake
-RUN gem2.5 update --system
-RUN gem2.5 install jekyll
-RUN gem2.5 install bundler
+RUN gem pristine rake
+RUN gem update --system
+RUN gem install jekyll
+RUN gem install bundler
 
 # Set the locale
 RUN apt-get -y install locales
