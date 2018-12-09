@@ -42,3 +42,9 @@ RUN locale-gen en_US.UTF-8
 ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US:en
 ENV LC_ALL en_US.UTF-8
+
+# Add common commands to bash history
+SHELL ["/bin/bash", "-i", "-c"]
+RUN history -s 'bundle install'
+RUN history -s 'bundle update'
+RUN history -s 'bundle exec jekyll serve --drafts --watch --force_polling -H 0.0.0.0'
