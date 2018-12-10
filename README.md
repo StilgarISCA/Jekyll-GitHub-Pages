@@ -9,6 +9,8 @@ I've had a lot of problems keeping Jekyll running locally on my Mac. Ruby gets s
 ### Build the container
 `docker build -t name-for-your-image .`
 
+Where . is the path to the Dockerfile
+
 ### Launch the container
 `docker run -it -v /path/to/local/github:/./pathToLinuxMount -p 4000:4000 --rm name-for-your-image bash`
 
@@ -18,7 +20,6 @@ This will start the container at the bash prompt. The path after the `-v` switch
 From the container's prompt:
 
 * `cd ./pathToLinuxMount`
-* `bundle install`
 * `bundle update`
 * `bundle exec jekyll serve --drafts --incremental --baseurl ‘' -H 0.0.0.0`
 
