@@ -1,4 +1,4 @@
-FROM ubuntu:bionic
+FROM ubuntu:20.04
 
 # Expose the Jekyll server port
 EXPOSE 4000
